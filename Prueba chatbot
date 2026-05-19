@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BeeMent Chatbot</title>
+</head>
+<body>
+
+<h2>🐝 BeeMent - Chatbot Escolar</h2>
+
+<input type="text" id="userInput" placeholder="Haz una pregunta...">
+<button onclick="responder()">Enviar</button>
+
+<p id="respuesta"></p>
+
+<script>
+function responder() {
+    let input = document.getElementById("userInput").value.toLowerCase();
+    let respuesta = "";
+
+    if (input.includes("uniforme")) {
+        respuesta = "Debes usar el uniforme completo y en buen estado.";
+    } 
+    else if (input.includes("celular")) {
+        respuesta = "El uso de celulares no está permitido en clase sin autorización.";
+    } 
+    else if (input.includes("llegar tarde")) {
+        respuesta = "Después de 3 llegadas tarde tendrás un llamado de atención.";
+    } 
+    else if (input.includes("respeto")) {
+        respuesta = "Debes respetar a todos los miembros de la institución.";
+    } 
+    else if (input.includes("tareas")) {
+        respuesta = "Debes entregar todas tus tareas en las fechas establecidas.";
+    } 
+    else if (input.includes("hola")) {
+        respuesta = "Hola 😊 Soy BeeMent, ¿en qué puedo ayudarte?";
+    } 
+    else {
+        respuesta = "No tengo esa información aún 😅";
+    }
+
+    document.getElementById("respuesta").innerText = respuesta;
+}
+</script>
+
+</body>
+</html>
