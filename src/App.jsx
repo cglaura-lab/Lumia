@@ -31,11 +31,13 @@ export default function Lumia() {
   });
 
   const [currentChatId, setCurrentChatId] = useState(() => {
-    const saved = localStorage.getItem(
-      "lumia_current_chat"
+    return (
+      Number(
+        localStorage.getItem(
+          "lumia_current_chat"
+        )
+      ) || 1
     );
-
-    return saved ? Number(saved) : 1;
   });
 
   const [input, setInput] = useState("");
@@ -70,8 +72,9 @@ export default function Lumia() {
   }, [currentChatId]);
 
   const currentChat =
-    chats.find((chat) => chat.id === currentChatId) ||
-    chats[0];
+    chats.find(
+      (chat) => chat.id === currentChatId
+    ) || chats[0];
 
   const createNewChat = () => {
     const newChat = {
@@ -92,165 +95,130 @@ export default function Lumia() {
   const deleteChat = (chatId) => {
     if (chats.length === 1) return;
 
-    const filtered = chats.filter(
+    const filteredChats = chats.filter(
       (chat) => chat.id !== chatId
     );
 
-    setChats(filtered);
-    setCurrentChatId(filtered[0].id);
+    setChats(filteredChats);
+    setCurrentChatId(filteredChats[0].id);
   };
 
   const getBotResponse = (message) => {
     const msg = message.toLowerCase();
 
-    // SALUDOS
     if (
       msg.includes("hola") ||
-      msg.includes("buenas") ||
-      msg.includes("hello")
+      msg.includes("buenas")
     ) {
-      return "¡Hola! 😊 Soy Lumia, el chatbot educativo del colegio SigloXXI. ¿En qué puedo ayudarte?";
+      return "¡Hola! 😊 Soy Lumia, el chatbot educativo de SigloXXI.";
     }
 
-    // PRUEBAS DEL LIBRO
-    if (
-      msg.includes("prueba del libro") ||
-      msg.includes("libro") ||
-      msg.includes("icfes") ||
-      msg.includes("lectura")
-    ) {
-      return "Las pruebas del libro son evaluaciones tipo ICFES de 20 preguntas relacionadas con el libro leído durante el mes. Cada pregunta vale 5 puntos y la nota máxima es 100. Si el estudiante obtiene 80 puntos o más, gana 3 actividades libres para sociales, español y lectura crítica. Si obtiene 25 puntos o menos, pierde 15 puntos en esas mismas materias. La prueba debe durar mínimo 40 minutos y máximo 80 minutos.";
-    }
-
-    // ACTIVIDADES LIBRES
-    if (
-      msg.includes("actividades libres") ||
-      msg.includes("actividad libre") ||
-      msg.includes("puntos libres")
-    ) {
-      return "Las actividades libres son actividades voluntarias propuestas por los profesores. Permiten obtener 50 puntos adicionales en la planilla y ayudan a subir de nivel académico. Deben entregarse antes de la fecha límite y cumplir todos los criterios.";
-    }
-
-    // PLANILLA
-    if (
-      msg.includes("planilla") ||
-      msg.includes("notas") ||
-      msg.includes("calificaciones") ||
-      msg.includes("puntos")
-    ) {
-      return "El sistema calificativo funciona por puntos. Cada actividad tiene un valor específico. Una clase correctamente realizada vale 15 puntos. Los padres pueden revisar la planilla digital desde Drive. Se evalúan asistencia, imagen, participación, ejercitación y evaluación.";
-    }
-
-    // HORARIO
     if (
       msg.includes("horario") ||
       msg.includes("entrada") ||
-      msg.includes("salida") ||
-      msg.includes("descanso") ||
-      msg.includes("almuerzo")
+      msg.includes("salida")
     ) {
-      return "Las clases empiezan a las 6:30am y terminan a las 12:15pm. El descanso de lunes a jueves es de 10:10 a 10:30. Los viernes es de 9:00 a 10:00. El almuerzo es de 12:15 a 1:40 y la salida del colegio es a la 1:40pm.";
+      return "Las clases comienzan a las 6:30am y terminan a las 12:15pm.";
     }
 
-    // UNIFORME
     if (
       msg.includes("uniforme") ||
-      msg.includes("sudadera") ||
-      msg.includes("falda") ||
-      msg.includes("camisa")
+      msg.includes("sudadera")
     ) {
-      return "Los estudiantes deben portar correctamente el uniforme. Las niñas deben llevar la camisa por dentro de la falda y la falda hasta la rodilla. Los niños deben llevar la camisa por dentro del pantalón y este no puede ser entubado. En educación física la sudadera tampoco puede ser entubada. Si no se cumple, el estudiante pierde puntos de imagen.";
+      return "Los estudiantes deben portar correctamente el uniforme.";
     }
 
-    // SISTEMA EDUCATIVO
     if (
-      msg.includes("clases") ||
-      msg.includes("ejercitaciones") ||
-      msg.includes("proposito") ||
-      msg.includes("preguntas orientadoras")
+      msg.includes("planilla") ||
+      msg.includes("notas")
     ) {
-      return "Las clases se dividen en propósito, enseñanza, procedimientos, preguntas orientadoras y ejercitaciones. Toda la clase vale 15 puntos. Cada ejercitación correcta vale 2 puntos. También se califican materiales e indisciplina.";
+      return "La planilla funciona por puntos y puede revisarse desde Drive.";
     }
 
-    // CORRESPONSABILIDAD
     if (
-      msg.includes("corresponsabilidad") ||
-      msg.includes("aseo") ||
-      msg.includes("zonas verdes")
+      msg.includes("actividad libre") ||
+      msg.includes("actividades libres")
     ) {
-      return "La corresponsabilidad consiste en realizar acciones que mejoren el entorno escolar, como hacer aseo, embellecer zonas verdes o llevar productos para la institución. Esto otorga puntos al estudiante dependiendo de la actividad realizada.";
+      return "Las actividades libres ayudan a ganar puntos extra.";
     }
 
-    // ASISTENCIA
     if (
-      msg.includes("asistencia") ||
-      msg.includes("excusa") ||
-      msg.includes("llegar tarde") ||
-      msg.includes("baño")
+      msg.includes("corresponsabilidad")
     ) {
-      return "La asistencia vale 5 puntos. Si el estudiante falta, el padre debe enviar una excusa. Si no la envía, pierde los puntos. También se pierden puntos al llegar tarde o salir al baño durante la clase.";
+      return "La corresponsabilidad consiste en ayudar al entorno escolar.";
     }
 
-    // GRACIAS
     if (
-      msg.includes("gracias") ||
-      msg.includes("thanks")
+      msg.includes("gracias")
     ) {
       return "¡Con gusto! 😄";
     }
 
-    // DEFAULT
-    return "Lo siento 😅 todavía estoy aprendiendo sobre ese tema. Puedes preguntarme sobre horarios, uniforme, asistencia, pruebas del libro, planilla, corresponsabilidad y actividades libres.";
+    return "Todavía estoy aprendiendo sobre ese tema 😅";
   };
 
   const sendMessage = () => {
     if (!input.trim()) return;
 
-    const text = input;
+    const userMessage = input;
 
     setInput("");
     setIsTyping(true);
 
-    const updatedChats = chats.map((chat) => {
-      if (chat.id === currentChatId) {
-        return {
-          ...chat,
-          title:
-            chat.title === "Nuevo chat"
-              ? text.slice(0, 20)
-              : chat.title,
-          messages: [
-            ...chat.messages,
-            {
-              text,
-              sender: "user",
-            },
-          ],
-        };
-      }
-
-      return chat;
-    });
-
-    setChats(updatedChats);
-
-    setTimeout(() => {
-      const finalChats = updatedChats.map((chat) => {
-        if (chat.id === currentChatId) {
+    const updatedChats = chats.map(
+      (chat) => {
+        if (
+          chat.id === currentChatId
+        ) {
           return {
             ...chat,
+            title:
+              chat.title ===
+              "Nuevo chat"
+                ? userMessage.slice(
+                    0,
+                    20
+                  )
+                : chat.title,
+
             messages: [
               ...chat.messages,
               {
-                text: getBotResponse(text),
-                sender: "bot",
+                text: userMessage,
+                sender: "user",
               },
             ],
           };
         }
 
         return chat;
-      });
+      }
+    );
+
+    setChats(updatedChats);
+
+    setTimeout(() => {
+      const finalChats =
+        updatedChats.map((chat) => {
+          if (
+            chat.id === currentChatId
+          ) {
+            return {
+              ...chat,
+              messages: [
+                ...chat.messages,
+                {
+                  text: getBotResponse(
+                    userMessage
+                  ),
+                  sender: "bot",
+                },
+              ],
+            };
+          }
+
+          return chat;
+        });
 
       setChats(finalChats);
       setIsTyping(false);
@@ -262,12 +230,13 @@ export default function Lumia() {
       {!loggedIn ? (
         <div
           style={{
-            background: "#1a1a1a",
+            background:
+              "linear-gradient(135deg,#141414,#1f1f1f)",
             height: "100vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            color: "white",
+            padding: "20px",
             fontFamily: "Arial",
           }}
         >
@@ -275,15 +244,38 @@ export default function Lumia() {
             style={{
               background: "#222",
               padding: "40px",
-              borderRadius: "20px",
-              width: "350px",
+              borderRadius: "25px",
+              width: "100%",
+              maxWidth: "380px",
               textAlign: "center",
+              color: "white",
+              boxShadow:
+                "0 0 25px rgba(0,0,0,0.5)",
             }}
           >
-            <h1>✨ Lumia</h1>
+            <div
+              style={{
+                fontSize: "60px",
+              }}
+            >
+              ✨
+            </div>
 
-            <p style={{ color: "#aaa" }}>
-              Chatbot educativo de SigloXXI
+            <h1
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              Lumia
+            </h1>
+
+            <p
+              style={{
+                color: "#aaa",
+              }}
+            >
+              Chatbot educativo de
+              SigloXXI
             </p>
 
             <input
@@ -291,35 +283,44 @@ export default function Lumia() {
               placeholder="Ingresa tu nombre"
               value={username}
               onChange={(e) =>
-                setUsername(e.target.value)
+                setUsername(
+                  e.target.value
+                )
               }
               style={{
                 width: "100%",
-                padding: "14px",
-                marginTop: "20px",
-                borderRadius: "12px",
+                padding: "15px",
+                marginTop: "25px",
+                borderRadius: "15px",
                 border: "none",
                 background: "#333",
                 color: "white",
                 outline: "none",
+                fontSize: "15px",
+                boxSizing: "border-box",
               }}
             />
 
             <button
               onClick={() => {
-                if (username.trim()) {
+                if (
+                  username.trim()
+                ) {
                   setLoggedIn(true);
                 }
               }}
               style={{
                 width: "100%",
                 marginTop: "20px",
-                padding: "14px",
+                padding: "15px",
+                borderRadius: "15px",
                 border: "none",
-                borderRadius: "12px",
-                background: "#0b93f6",
+                background:
+                  "#0b93f6",
                 color: "white",
                 cursor: "pointer",
+                fontSize: "16px",
+                fontWeight: "bold",
               }}
             >
               Entrar
@@ -330,34 +331,75 @@ export default function Lumia() {
         <div
           style={{
             display: "flex",
+            flexDirection:
+              window.innerWidth <
+              768
+                ? "column"
+                : "row",
+
             height: "100vh",
-            background: "#1a1a1a",
+            background:
+              "#1a1a1a",
             color: "white",
             fontFamily: "Arial",
           }}
         >
+          {/* SIDEBAR */}
           <div
             style={{
-              width: "280px",
-              background: "#111",
-              padding: "20px",
-              borderRight: "1px solid #333",
+              width:
+                window.innerWidth <
+                768
+                  ? "100%"
+                  : "280px",
+
+              background:
+                "#111",
+              borderRight:
+                "1px solid #333",
+
+              borderBottom:
+                window.innerWidth <
+                768
+                  ? "1px solid #333"
+                  : "none",
+
               display: "flex",
-              flexDirection: "column",
+              flexDirection:
+                "column",
+
+              padding: "20px",
+              boxSizing:
+                "border-box",
             }}
           >
             <h2>✨ Lumia</h2>
 
             <button
-              onClick={createNewChat}
+              onClick={
+                createNewChat
+              }
               style={{
-                marginTop: "20px",
-                padding: "14px",
-                borderRadius: "12px",
-                border: "none",
-                background: "#2a2a2a",
+                background:
+                  "#2a2a2a",
+
                 color: "white",
+
+                border: "none",
+
+                padding: "14px",
+
+                borderRadius:
+                  "14px",
+
                 cursor: "pointer",
+
+                marginTop: "15px",
+
+                marginBottom:
+                  "20px",
+
+                fontSize: "15px",
               }}
             >
               + Nuevo chat
@@ -365,64 +407,91 @@ export default function Lumia() {
 
             <div
               style={{
-                marginTop: "20px",
-                flex: 1,
                 overflowY: "auto",
+                flex: 1,
               }}
             >
-              <p style={{ color: "#888" }}>
-                Chats recientes
-              </p>
-
-              {chats.map((chat) => (
-                <div
-                  key={chat.id}
-                  style={{
-                    marginTop: "10px",
-                    padding: "12px",
-                    borderRadius: "10px",
-                    background:
-                      currentChatId === chat.id
-                        ? "#333"
-                        : "#222",
-                    display: "flex",
-                    justifyContent:
-                      "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <span
+              {chats.map(
+                (chat) => (
+                  <div
+                    key={chat.id}
                     style={{
-                      cursor: "pointer",
-                    }}
-                    onClick={() =>
-                      setCurrentChatId(chat.id)
-                    }
-                  >
-                    {chat.title}
-                  </span>
+                      padding:
+                        "12px",
 
-                  <button
-                    onClick={() =>
-                      deleteChat(chat.id)
-                    }
-                    style={{
-                      background: "none",
-                      border: "none",
-                      color: "#999",
-                      cursor: "pointer",
+                      marginBottom:
+                        "10px",
+
+                      background:
+                        currentChatId ===
+                        chat.id
+                          ? "#333"
+                          : "#222",
+
+                      borderRadius:
+                        "12px",
+
+                      display:
+                        "flex",
+
+                      justifyContent:
+                        "space-between",
+
+                      alignItems:
+                        "center",
                     }}
                   >
-                    ✕
-                  </button>
-                </div>
-              ))}
+                    <span
+                      style={{
+                        cursor:
+                          "pointer",
+                      }}
+                      onClick={() =>
+                        setCurrentChatId(
+                          chat.id
+                        )
+                      }
+                    >
+                      {chat.title}
+                    </span>
+
+                    <button
+                      onClick={() =>
+                        deleteChat(
+                          chat.id
+                        )
+                      }
+                      style={{
+                        background:
+                          "none",
+
+                        border:
+                          "none",
+
+                        color:
+                          "#aaa",
+
+                        cursor:
+                          "pointer",
+                      }}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )
+              )}
             </div>
 
             <div
               style={{
-                borderTop: "1px solid #333",
-                paddingTop: "15px",
+                borderTop:
+                  "1px solid #333",
+
+                paddingTop:
+                  "15px",
+
+                marginTop:
+                  "10px",
               }}
             >
               👤 {username}
@@ -433,14 +502,28 @@ export default function Lumia() {
                   window.location.reload();
                 }}
                 style={{
-                  marginTop: "10px",
+                  marginTop:
+                    "12px",
+
                   width: "100%",
-                  padding: "10px",
-                  border: "none",
-                  borderRadius: "10px",
-                  background: "#222",
-                  color: "white",
-                  cursor: "pointer",
+
+                  padding:
+                    "12px",
+
+                  borderRadius:
+                    "12px",
+
+                  border:
+                    "none",
+
+                  background:
+                    "#222",
+
+                  color:
+                    "white",
+
+                  cursor:
+                    "pointer",
                 }}
               >
                 Cerrar sesión
@@ -448,18 +531,22 @@ export default function Lumia() {
             </div>
           </div>
 
+          {/* CHAT */}
           <div
             style={{
               flex: 1,
               display: "flex",
-              flexDirection: "column",
+              flexDirection:
+                "column",
             }}
           >
             <div
               style={{
                 padding: "20px",
-                borderBottom: "1px solid #333",
-                fontWeight: "bold",
+                borderBottom:
+                  "1px solid #333",
+                fontWeight:
+                  "bold",
               }}
             >
               {currentChat.title}
@@ -469,31 +556,62 @@ export default function Lumia() {
               style={{
                 flex: 1,
                 overflowY: "auto",
-                padding: "20px",
+                padding:
+                  window.innerWidth <
+                  768
+                    ? "10px"
+                    : "20px",
               }}
             >
               {currentChat.messages.map(
-                (msg, index) => (
+                (
+                  msg,
+                  index
+                ) => (
                   <div
                     key={index}
                     style={{
-                      display: "flex",
+                      display:
+                        "flex",
+
                       justifyContent:
-                        msg.sender === "user"
+                        msg.sender ===
+                        "user"
                           ? "flex-end"
                           : "flex-start",
-                      marginBottom: "15px",
+
+                      marginBottom:
+                        "15px",
                     }}
                   >
                     <div
                       style={{
                         background:
-                          msg.sender === "user"
+                          msg.sender ===
+                          "user"
                             ? "#0b93f6"
                             : "#333",
-                        padding: "14px 18px",
-                        borderRadius: "18px",
-                        maxWidth: "65%",
+
+                        padding:
+                          "14px 18px",
+
+                        borderRadius:
+                          "18px",
+
+                        maxWidth:
+                          window.innerWidth <
+                          768
+                            ? "90%"
+                            : "65%",
+
+                        fontSize:
+                          window.innerWidth <
+                          768
+                            ? "14px"
+                            : "16px",
+
+                        wordBreak:
+                          "break-word",
                       }}
                     >
                       {msg.text}
@@ -503,56 +621,94 @@ export default function Lumia() {
               )}
 
               {isTyping && (
-                <div
-                  style={{
-                    color: "#999",
-                  }}
-                >
-                  ✨ Lumia está escribiendo...
+                <div>
+                  ✨ Lumia está
+                  escribiendo...
                 </div>
               )}
             </div>
 
+            {/* BARRA */}
             <div
               style={{
-                padding: "20px",
-                borderTop: "1px solid #333",
+                padding: "15px",
+                borderTop:
+                  "1px solid #333",
+
                 display: "flex",
+
                 gap: "10px",
+
+                alignItems:
+                  "flex-end",
               }}
             >
-              <input
-                type="text"
+              <textarea
                 placeholder="Escribe un mensaje..."
                 value={input}
                 onChange={(e) =>
-                  setInput(e.target.value)
+                  setInput(
+                    e.target.value
+                  )
                 }
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
+                onKeyDown={(
+                  e
+                ) => {
+                  if (
+                    e.key ===
+                      "Enter" &&
+                    !e.shiftKey
+                  ) {
+                    e.preventDefault();
                     sendMessage();
                   }
                 }}
+                rows={1}
                 style={{
                   flex: 1,
-                  padding: "15px",
-                  borderRadius: "14px",
+                  padding: "14px",
+                  borderRadius:
+                    "18px",
                   border: "none",
-                  background: "#2a2a2a",
+                  background:
+                    "#2a2a2a",
                   color: "white",
                   outline: "none",
+                  resize: "none",
+                  minHeight:
+                    "55px",
+                  maxHeight:
+                    "150px",
+                  overflowY:
+                    "auto",
+                  fontSize:
+                    "15px",
                 }}
               />
 
               <button
-                onClick={sendMessage}
+                onClick={
+                  sendMessage
+                }
                 style={{
-                  padding: "15px 20px",
-                  borderRadius: "14px",
+                  background:
+                    "#0b93f6",
+
                   border: "none",
-                  background: "#0b93f6",
+
                   color: "white",
-                  cursor: "pointer",
+
+                  padding:
+                    "15px 20px",
+
+                  borderRadius:
+                    "16px",
+
+                  cursor:
+                    "pointer",
+
+                  fontWeight:
+                    "bold",
                 }}
               >
                 Enviar
