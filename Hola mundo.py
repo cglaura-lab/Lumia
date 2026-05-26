@@ -1,0 +1,1 @@
+print("Hola mundo desde python en 2025npm -")

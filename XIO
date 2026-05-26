@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Educativo</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      background:#f0f2f5;
+      display:flex;
+      justify-content:center;
+      margin-top:50px;
+    }
+
+    .chat{
+      width:400px;
+      background:white;
+      border-radius:10px;
+      padding:20px;
+      box-shadow:0 0 10px rgba(0,0,0,0.2);
+    }
+
+    #mensajes{
+      height:300px;
+      overflow-y:auto;
+      border:1px solid #ccc;
+      padding:10px;
+      margin-bottom:10px;
+    }
+
+    .usuario{
+      color:blue;
+      margin:5px 0;
+    }
+
+    .bot{
+      color:green;
+      margin:5px 0;
+    }
+
+    input{
+      width:75%;
+      padding:10px;
+    }
+
+    button{
+      padding:10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat">
+  <h2>Chatbot Educativo</h2>
+
+  <div id="mensajes"></div>
+
+  <input type="text" id="pregunta" placeholder="Escribe tu pregunta">
+  <button onclick="responder()">Enviar</button>
+</div>
+
+<script>
+
+function responder(){
+
+  let input = document.getElementById("pregunta");
+  let texto = input.value.toLowerCase();
+
+  let mensajes = document.getElementById("mensajes");
+
+  mensajes.innerHTML += `<p class="usuario"><b>Tú:</b> ${texto}</p>`;
+
+  let respuesta = "Lo siento, no entiendo esa pregunta.";
+
+  // RESPUESTAS BÁSICAS
+
+  if(texto.includes("horario")){
+    respuesta = "Los horarios están disponibles en la plataforma académica.";
+  }
+
+  else if(texto.includes("notas")){
+    respuesta = "Puedes consultar las notas en el módulo de estudiantes.";
+  }
+
+  else if(texto.includes("matricula")){
+    respuesta = "Las matrículas se realizan del 10 al 20 de enero.";
+  }
+
+  else if(texto.includes("profesor")){
+    respuesta = "Puedes contactar a los profesores desde el directorio institucional.";
+  }
+
+  else if(texto.includes("calendario")){
+    respuesta = "El calendario académico está publicado en la página principal.";
+  }
+
+  else if(texto.includes("hola")){
+    respuesta = "Hola, ¿en qué puedo ayudarte?";
+  }
+
+  mensajes.innerHTML += `<p class="bot"><b>Bot:</b> ${respuesta}</p>`;
+
+  input.value = "";
+
+  mensajes.scrollTop = mensajes.scrollHeight;
+}
+
+</script>
+
+</body>
+</html>
