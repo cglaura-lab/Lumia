@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import logo from "./assets/logo.png";
 
 export default function Lumia() {
   const [username, setUsername] = useState(
@@ -253,14 +254,16 @@ export default function Lumia() {
                 "0 0 25px rgba(0,0,0,0.5)",
             }}
           >
-            <div
-              style={{
-                fontSize: "60px",
-              }}
-            >
-              ✨
-            </div>
-
+           <img
+  src={logo}
+  alt="Lumia"
+  style={{
+    width: "120px",
+    height: "120px",
+    objectFit: "contain",
+    marginBottom: "10px",
+  }}
+/>
             <h1
               style={{
                 marginTop: "10px",
