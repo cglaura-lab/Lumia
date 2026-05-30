@@ -376,7 +376,25 @@ export default function Lumia() {
                 "border-box",
             }}
           >
-            <h2>✨ Lumia</h2>
+            <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+  }}
+>
+  <img
+    src={logo}
+    alt="Lumia"
+    style={{
+      width: "40px",
+      height: "40px",
+      objectFit: "contain",
+    }}
+  />
+
+  <h2>Lumia</h2>
+</div>
 
             <button
               onClick={
