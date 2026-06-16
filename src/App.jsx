@@ -4,6 +4,8 @@ import React, {
   useRef,
 } from "react";
 
+import axios from "axios";
+
 import logo from "./assets/logo.png";
 
 export default function Lumia() {
@@ -562,8 +564,8 @@ Puedes preguntarme acerca de:
 • Google Classroom`;
     };
 
-  const sendMessage =
-    () => {
+const sendMessage =
+  async () => {
       if (
         !input.trim()
       )
@@ -619,51 +621,67 @@ Puedes preguntarme acerca de:
         updatedChats
       );
 
-      setTimeout(
-        () => {
-          const finalChats =
-            updatedChats.map(
-              (chat) => {
-                if (
-                  chat.id ===
-                  currentChatId
-                ) {
-                  return {
-                    ...chat,
+try {
+  const response =
+await axios.post(
+  "http://localhost:3001/chat",
+  {
+    message: userMessage,
 
-                    messages: [
-                      ...chat.messages,
+    history:
+      updatedChats
+        .find(
+          (chat) =>
+            chat.id ===
+            currentChatId
+        )
+        ?.messages || [],
+  }
+);
 
-                      {
-                        text:
-                          getBotResponse(
-                            userMessage
-                          ),
+  const finalChats =
+    updatedChats.map(
+      (chat) => {
+        if (
+          chat.id ===
+          currentChatId
+        ) {
+          return {
+            ...chat,
 
-                        sender:
-                          "bot",
+            messages: [
+              ...chat.messages,
 
-                        time:
-                          getCurrentTime(),
-                      },
-                    ],
-                  };
-                }
+              {
+                text:
+                  response.data.reply,
 
-                return chat;
-              }
-            );
+                sender:
+                  "bot",
 
-          setChats(
-            finalChats
-          );
+                time:
+                  getCurrentTime(),
+              },
+            ],
+          };
+        }
 
-          setIsTyping(
-            false
-          );
-        },
-        1200
-      );
+        return chat;
+      }
+    );
+
+  setChats(
+    finalChats
+  );
+} catch (error) {
+  console.error(error);
+
+  alert(
+    "Error conectando con Gemini"
+  );
+}
+
+setIsTyping(false);
     };
     return (
   <>
