@@ -624,7 +624,7 @@ const sendMessage =
 try {
   const response =
 await axios.post(
-  "http://localhost:3001/chat",
+  "https://lumia-api.onrender.com/chat",
   {
     message: userMessage,
 
